@@ -38,3 +38,8 @@ self.tlwh = np.asarray(tlwh, dtype=np.float)
 Bạn có thể thay dtype=np.float bằng dtype=float (hoặc dtype=np.float64) ở dòng đó. Ví dụ:
 
 self.tlwh = np.asarray(tlwh, dtype=float)
+
+
+pip uninstall torch torchvision torchaudio
+
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu129
