@@ -250,11 +250,24 @@ class DetectionPredictor(BasePredictor):
 
 @hydra.main(version_base=None, config_path=str(DEFAULT_CONFIG.parent), config_name=DEFAULT_CONFIG.name)
 def predict(cfg):
+    # === BẮT ĐẦU CODE THÊM VÀO ===
+    # Kiểm tra xem GPU (CUDA) có khả dụng không và in ra device
+    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    print(f"Script đang được cấu hình để chạy trên: {device}")
+    if torch.cuda.is_available():
+        print(f"Tên thiết bị GPU: {torch.cuda.get_device_name(0)}")
+    # === KẾT THÚC CODE THÊM VÀO ===
+
     init_tracker()
     cfg.model = cfg.model or "yolov8n.pt"
     cfg.imgsz = check_imgsz(cfg.imgsz, min_dim=2)  # check image size
     cfg.source = cfg.source if cfg.source is not None else ROOT / "assets"
+    
     predictor = DetectionPredictor(cfg)
+    
+    # Bạn cũng có thể in device cụ thể mà model YOLO đang dùng
+    print(f"Model YOLO thực tế đang chạy trên: {predictor.device}")
+    
     predictor()
 
 
